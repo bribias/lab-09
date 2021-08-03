@@ -8,7 +8,7 @@ describe('demo routes', () => {
     return setup(pool);
   });
   it('creates a character via POST', async () => {
-    const character = { name: 'Katsuki Bakgugo', quirk: 'explosion' };
+    const character = { name: 'Katsuki Bakgugo', alias: 'Kacchan', quirk: 'explosion' };
     const res = await (await request(app).post('/api/character')).setEncoding(character);
 
     expect(res.body).toEqual({ id: '1', ...character });
