@@ -58,4 +58,15 @@ describe('demo routes', () => {
     const res = await request(app).put(`/api/v1/heros/${character.id}`).send(deku);
     expect(res.body).toEqual({ id: '1', ...deku });
   });
+
+  it('deletes a character', async () => {
+    const character = await Hero.insert({
+      name: 'Katsuki Bakugo',
+      alias: 'Kacchan',
+      quirk: 'explosion',
+    });
+    const res = await request(app).delete(`/api/v1/heros/${character.id}`);
+
+    expect(res.body).toEqual({ message: `${character.name} has been defeated` });
+  });
 });
