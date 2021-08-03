@@ -9,10 +9,12 @@ describe('demo routes', () => {
     return setup(pool);
   });
   it('creates a character via POST', async () => {
-    const character = { name: 'Katsuki Bakgugo', alias: 'Kacchan', quirk: 'explosion' };
-    const res = await  request(app)
-      .post('/api/v1/heros')
-      .send(character);
+    const character = {
+      name: 'Katsuki Bakgugo',
+      alias: 'Kacchan',
+      quirk: 'explosion',
+    };
+    const res = await request(app).post('/api/v1/heros').send(character);
 
     expect(res.body).toEqual({ id: '1', ...character });
   });
@@ -20,10 +22,25 @@ describe('demo routes', () => {
     const character = await Hero.insert({
       name: 'Katsuki Bakugo',
       alias: 'Kacchan',
-      quirk: 'explosion'
+      quirk: 'explosion',
     });
     const res = await request(app).get(`/api/v1/heros/${character.id}`);
 
     expect(res.body).toEqual(character);
+  });
+  it('gets all character', async () => {
+    const character1 = await Hero.insert({
+      name: 'Katsuki Bakugo',
+      alias: 'Kacchan',
+      quirk: 'explosion',
+    });
+    const character2 = await Hero.insert({
+      name: 'Izuku Midoriya',
+      alias: 'Deku',
+      quirk: 'one for all',
+    });
+    const res = await request(app).get('/api/v1/heros');
+
+    expect(res.body).toEqual([character1, character2]);
   });
 });
