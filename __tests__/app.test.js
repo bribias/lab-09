@@ -43,4 +43,19 @@ describe('demo routes', () => {
 
     expect(res.body).toEqual([character1, character2]);
   });
+
+  it('updates a character by id', async () => {
+    const deku = {
+      name: 'Izuku Midoriya',
+      alias: 'Deku',
+      quirk: 'one for all',
+    };
+    const character = await Hero.insert({
+      name: 'Katsuki Bakugo',
+      alias: 'Kacchan',
+      quirk: 'explosion',
+    });
+    const res = await request(app).put(`/api/v1/heros/${character.id}`).send(deku);
+    expect(res.body).toEqual({ id: '1', ...deku });
+  });
 });
